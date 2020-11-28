@@ -49,4 +49,9 @@ public class GamePlayer {
     public void setLocations(List<String> locations) { this.locations = locations; }
 
     //~ Methods
+    Score getScore(char score){
+        if(score == 'N')
+            return null;
+        return new Score(score, player, game);
+    }
 }

@@ -27,8 +27,8 @@ public class Score {
     }
     public Score(char score, Player player, Game game) {
         this.score = score;
-        this.player = player;
-        this.game = game;
+        player.addScore(this);
+        game.addScore(this);
     }
 
     public long getId() { return id; }

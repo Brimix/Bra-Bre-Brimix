@@ -31,6 +31,8 @@ public class Player {
     }
 
     public long getId() { return id; }
+    public Date getCreated() { return created; }
+    public void setCreated(Date created) { this.created = created; }
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
     public Set<GamePlayer> getGamePlayers() { return gamePlayers; }

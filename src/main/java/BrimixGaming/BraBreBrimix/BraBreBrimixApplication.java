@@ -3,15 +3,19 @@ package BrimixGaming.BraBreBrimix;
 import BrimixGaming.BraBreBrimix.Model.Game;
 import BrimixGaming.BraBreBrimix.Model.GamePlayer;
 import BrimixGaming.BraBreBrimix.Model.Player;
+import BrimixGaming.BraBreBrimix.Model.Score;
 import BrimixGaming.BraBreBrimix.Repository.GamePlayerRepository;
 import BrimixGaming.BraBreBrimix.Repository.GameRepository;
 import BrimixGaming.BraBreBrimix.Repository.PlayerRepository;
+import BrimixGaming.BraBreBrimix.Repository.ScoreRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @SpringBootApplication
 public class BraBreBrimixApplication {
@@ -23,7 +27,8 @@ public class BraBreBrimixApplication {
 	public CommandLineRunner initData(
 			PlayerRepository p_rep,
 			GameRepository g_rep,
-			GamePlayerRepository gp_rep
+			GamePlayerRepository gp_rep,
+			ScoreRepository s_rep
 	){
 		return (args) -> {
 			 Player P1 = new Player("April");
@@ -39,9 +44,19 @@ public class BraBreBrimixApplication {
 			 GamePlayer GP5 = new GamePlayer(P3, G3, '6');
 			 GamePlayer GP6 = new GamePlayer(P1, G3, '9');
 
+			 Score S1 = GP1.getScore('W');
+			 Score S2 = GP2.getScore('L');
+			 Score S3 = GP3.getScore('N');
+			 Score S4 = GP4.getScore('N');
+			 Score S5 = GP5.getScore('D');
+			 Score S6 = GP6.getScore('D');
+
 			 p_rep.saveAll(List.of(P1, P2, P3));
 			 g_rep.saveAll(List.of(G1, G2, G3));
 			 gp_rep.saveAll(List.of(GP1, GP2, GP3, GP4, GP5, GP6));
+			 s_rep.saveAll(List.of(S1, S2, /*S3, S4, */S5, S6).stream()
+					 		.filter(s -> s != null)
+					 		.collect(toList()));
 		};
 	}
 }

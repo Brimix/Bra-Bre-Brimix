@@ -1,5 +1,6 @@
-package BrimixGaming.BraBreBrimix;
+package BrimixGaming.BraBreBrimix.Repository;
 
+import BrimixGaming.BraBreBrimix.Model.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 

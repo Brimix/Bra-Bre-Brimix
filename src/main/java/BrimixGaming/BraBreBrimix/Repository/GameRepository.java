@@ -1,8 +1,9 @@
-package BrimixGaming.BraBreBrimix;
+package BrimixGaming.BraBreBrimix.Repository;
 
+import BrimixGaming.BraBreBrimix.Model.Game;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
-public interface GamePlayerRepository extends JpaRepository<GamePlayer, Long> {
+public interface GameRepository extends JpaRepository<Game, Long> {
 }

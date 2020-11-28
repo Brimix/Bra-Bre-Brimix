@@ -1,4 +1,4 @@
-package BrimixGaming.BraBreBrimix;
+package BrimixGaming.BraBreBrimix.Model;
 
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;

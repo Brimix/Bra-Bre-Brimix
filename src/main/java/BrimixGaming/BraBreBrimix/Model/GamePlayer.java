@@ -52,7 +52,7 @@ public class GamePlayer {
     public void addLocation(String location){
         locations.add(location);
     }
-    Score getScore(char score){
+    public Score getScore(char score){
         if(score == 'N')
             return null;
         return new Score(score, player, game);

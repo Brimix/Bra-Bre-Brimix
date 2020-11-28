@@ -1,5 +1,6 @@
 package BrimixGaming.BraBreBrimix.Model;
 
+import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.*;

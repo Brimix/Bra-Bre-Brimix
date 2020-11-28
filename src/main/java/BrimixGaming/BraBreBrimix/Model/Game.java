@@ -22,6 +22,7 @@ public class Game {
     public Game(){
         this.created = new Date();
         this.gamePlayers = new LinkedHashSet<>();
+        this.scores = new LinkedHashSet<>();
     }
 
     public long getId() { return id; }

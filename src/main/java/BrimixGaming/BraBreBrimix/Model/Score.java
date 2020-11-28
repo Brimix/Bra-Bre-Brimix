@@ -26,6 +26,7 @@ public class Score {
         this.ended = new Date();
     }
     public Score(char score, Player player, Game game) {
+        this();
         this.score = score;
         player.addScore(this);
         game.addScore(this);

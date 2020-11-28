@@ -23,6 +23,7 @@ public class Player {
     public Player(){
         this.created = new Date();
         this.gamePlayers = new LinkedHashSet<>();
+        this.scores = new LinkedHashSet<>();
     }
     public Player(String username) {
         this();

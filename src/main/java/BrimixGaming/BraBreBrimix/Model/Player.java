@@ -49,4 +49,16 @@ public class Player {
         scores.add(score);
         score.setPlayer(this);
     }
+    public long getWins(){
+        return getScores().stream().map(s -> s.getResult())
+                .filter(s -> s == 'W').count();
+    }
+    public long getDraws(){
+        return getScores().stream().map(s -> s.getResult())
+                .filter(s -> s == 'D').count();
+    }
+    public long getLoses(){
+        return getScores().stream().map(s -> s.getResult())
+                .filter(s -> s == 'L').count();
+    }
 }

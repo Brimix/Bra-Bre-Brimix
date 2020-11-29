@@ -26,7 +26,7 @@ public class GamePlayerDTO {
                 .get();
 
         Map<String, Object> dto = new LinkedHashMap<>();
-        dto.put("game_created_at", game.getCreated());
+        dto.put("created", game.getCreated());
         dto.put("me", playerInfo(gp1));
         dto.put("rival", playerInfo(gp2));
         return dto;

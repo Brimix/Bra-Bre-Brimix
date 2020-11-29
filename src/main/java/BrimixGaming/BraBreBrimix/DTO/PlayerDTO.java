@@ -31,21 +31,9 @@ public class PlayerDTO {
 //                .mapToDouble(s -> s.getScore())
 //                .sum()
 //        );
-        dto.put("wins", player.getScores().stream()
-                .map(s -> s.getResult())
-                .filter(s -> s == 'W')
-                .count()
-        );
-        dto.put("draws", player.getScores().stream()
-                .map(s -> s.getResult())
-                .filter(s -> s == 'D')
-                .count()
-        );
-        dto.put("loses", player.getScores().stream()
-                .map(s -> s.getResult())
-                .filter(s -> s == 'L')
-                .count()
-        );
+        dto.put("wins", player.getWins());
+        dto.put("draws", player.getDraws());
+        dto.put("loses", player.getLoses());
         return dto;
     }
 }

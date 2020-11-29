@@ -1,12 +1,14 @@
 package BrimixGaming.BraBreBrimix;
 
 import BrimixGaming.BraBreBrimix.DTO.*;
+import BrimixGaming.BraBreBrimix.Model.Player;
 import BrimixGaming.BraBreBrimix.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +58,12 @@ public class Controller {
 
     @RequestMapping("/leaderboard")
     public List<Map<String, Object>> getLeaderboard(){
-        return p_rep.findAll().stream()
+        return p_rep.findAll().stream().sorted(Comparator
+                        .comparingLong(Player::getWins)
+                        .thenComparingLong(Player::getDraws)
+                        .thenComparingLong(Player::getLoses)
+                        .reversed()
+                )
                 .map(p -> PlayerDTO.scoreData(p))
                 .collect(toList());
     }

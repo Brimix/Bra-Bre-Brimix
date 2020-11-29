@@ -11,7 +11,7 @@ public class ScoreDTO {
         Map<String, Object> dto = new LinkedHashMap<>();
         dto.put("id", score.getId());
         dto.put("ended", score.getEnded());
-        dto.put("score", score.getScore());
+        dto.put("score", score.getResult());
         dto.put("player", score.getPlayer().getUsername());
         dto.put("game", score.getGame().getId());
         return dto;

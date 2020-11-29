@@ -3,6 +3,7 @@ package BrimixGaming.BraBreBrimix;
 import BrimixGaming.BraBreBrimix.DTO.*;
 import BrimixGaming.BraBreBrimix.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,5 +47,10 @@ public class Controller {
         return s_rep.findAll().stream()
                 .map(s -> ScoreDTO.standard(s))
                 .collect(toList());
+    }
+
+    @RequestMapping("/game_view/{id}")
+    public Map<String, Object> getGameView(@PathVariable Long id){
+        return GamePlayerDTO.gameView(gp_rep.findById(id).get());
     }
 }

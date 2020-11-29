@@ -13,7 +13,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.stream.Collectors.toList;
 
@@ -54,7 +56,7 @@ public class BraBreBrimixApplication {
 			 p_rep.saveAll(List.of(P1, P2, P3));
 			 g_rep.saveAll(List.of(G1, G2, G3));
 			 gp_rep.saveAll(List.of(GP1, GP2, GP3, GP4, GP5, GP6));
-			 s_rep.saveAll(List.of(S1, S2, /*S3, S4, */S5, S6).stream()
+			 s_rep.saveAll(Arrays.asList(S1, S2, S3, S4, S5, S6).stream()
 					 		.filter(s -> s != null)
 					 		.collect(toList()));
 		};

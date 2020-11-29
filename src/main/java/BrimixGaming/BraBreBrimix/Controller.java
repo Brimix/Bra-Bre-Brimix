@@ -53,4 +53,11 @@ public class Controller {
     public Map<String, Object> getGameView(@PathVariable Long id){
         return GamePlayerDTO.gameView(gp_rep.findById(id).get());
     }
+
+    @RequestMapping("/leaderboard")
+    public List<Map<String, Object>> getLeaderboard(){
+        return p_rep.findAll().stream()
+                .map(p -> PlayerDTO.scoreData(p))
+                .collect(toList());
+    }
 }

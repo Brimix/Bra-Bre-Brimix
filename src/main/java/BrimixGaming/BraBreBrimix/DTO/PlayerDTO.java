@@ -21,4 +21,31 @@ public class PlayerDTO {
                             .collect(toList()));
         return dto;
     }
+
+    public static Map<String, Object> scoreData(Player player){
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("id", player.getId());
+//        dto.put("created", player.getCreated());
+        dto.put("username", player.getUsername());
+//        dto.put("score", player.getScores().stream()
+//                .mapToDouble(s -> s.getScore())
+//                .sum()
+//        );
+        dto.put("wins", player.getScores().stream()
+                .map(s -> s.getResult())
+                .filter(s -> s == 'W')
+                .count()
+        );
+        dto.put("draws", player.getScores().stream()
+                .map(s -> s.getResult())
+                .filter(s -> s == 'D')
+                .count()
+        );
+        dto.put("loses", player.getScores().stream()
+                .map(s -> s.getResult())
+                .filter(s -> s == 'L')
+                .count()
+        );
+        return dto;
+    }
 }

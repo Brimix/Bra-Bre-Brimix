@@ -19,6 +19,6 @@ function loadData(){
             $('#created').text("Game started at: " + data.created);
         })
         .fail(function( jqXHR, textStatus ) {
-          alert( "Failed to load gameboard: " + textStatus );
+            alert( "Failed to load gameboard: " + textStatus );
         });
 };

@@ -1,14 +1,25 @@
 package BrimixGaming.BraBreBrimix;
 
 import BrimixGaming.BraBreBrimix.DTO.*;
+import BrimixGaming.BraBreBrimix.Model.Game;
+import BrimixGaming.BraBreBrimix.Model.GamePlayer;
 import BrimixGaming.BraBreBrimix.Model.Player;
 import BrimixGaming.BraBreBrimix.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +36,10 @@ public class Controller {
     GamePlayerRepository gp_rep;
     @Autowired
     ScoreRepository s_rep;
+
+    // Declaration of encoder
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @RequestMapping("/players")
     public List<Map<String, Object>> getAllPlayers(){
@@ -59,12 +74,50 @@ public class Controller {
     @RequestMapping("/leaderboard")
     public List<Map<String, Object>> getLeaderboard(){
         return p_rep.findAll().stream().sorted(Comparator
-                        .comparingLong(Player::getWins)
-                        .thenComparingLong(Player::getDraws)
-                        .thenComparingLong(Player::getLoses)
-                        .reversed()
-                )
-                .map(p -> PlayerDTO.scoreData(p))
-                .collect(toList());
+                .comparingLong(Player::getWins)
+                .thenComparingLong(Player::getDraws)
+                .thenComparingLong(Player::getLoses)
+                .reversed()
+            )
+            .map(p -> PlayerDTO.scoreData(p))
+            .collect(toList());
+    }
+
+    @RequestMapping(path = "/register", method = RequestMethod.POST)
+    public ResponseEntity<Object> registerPlayer(
+            @RequestParam String username,
+            @RequestParam String password
+        ){
+        if (username.isEmpty() || password.isEmpty())
+            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+
+        p_rep.save(new Player(username, passwordEncoder.encode(password)));
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(path = "/create", method = RequestMethod.POST)
+    public ResponseEntity<Object> create(Authentication authentication, char suit){
+        if(isGuest(authentication))
+            return new ResponseEntity<>(makeMap("error", "You are not logged in."), HttpStatus.UNAUTHORIZED);
+
+        Player player = p_rep.findByUsername(authentication.getName()).orElse(null);
+        if(player == null)
+            return new ResponseEntity<>(makeMap("error", "Database error. Player not found."), HttpStatus.INTERNAL_SERVER_ERROR);
+
+        Game game = new Game();
+        GamePlayer gamePlayer = new GamePlayer(player, game, suit);
+        g_rep.save(game);
+        gp_rep.save(gamePlayer);
+        return new ResponseEntity<>(makeMap("gpid", gamePlayer.getId()), HttpStatus.CREATED);
+    }
+
+    // Auxiliary methods
+    public static boolean isGuest(Authentication authentication) {
+        return authentication == null || authentication instanceof AnonymousAuthenticationToken;
+    }
+    public static Map<String, Object> makeMap(String key, Object value) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put(key, value);
+        return map;
     }
 }
